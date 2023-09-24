@@ -52,6 +52,7 @@ def generate_binary_strings(bit_count):
 
 
     genbin(bit_count)
+    print(binary_strings)
     return binary_strings
 
 #-------Functions for drawing runes
@@ -147,7 +148,9 @@ def draw_spell(level,rang,area,dtype,school,title = None,savename = "output.png"
         non_repeating = generate_unique_combinations(N)
         non_repeating = np.array(non_repeating)
         np.save(f"Uniques/{N}.npy",non_repeating)
+    print(len(non_repeating))
     input_array = np.array([non_repeating[i] for i in attributes])#note +1 s.t. 0th option is always open for empty input
+    print(input_array)
     draw_multiple_inputs(input_array,labels = labels,legend = legend,
                          base_fn = base_fn,base_kwargs = base_kwargs,
                          shape_fn = shape_fn,shape_kwargs = shape_kwargs,
@@ -240,11 +243,11 @@ if __name__ == "__main__":
                 base_fn = bases.polygon,shape_fn = line_shapes.straight,
                 breakdown = breakdown,savename = savename)
         plt.clf()
-        input_shape = np.array([0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1])
-        decode_shape(input_shape,k=3,point_color = 'k',color = 'k',
-                 label = None,base_fn = bases.polygon,base_kwargs = [],
-                 shape_fn = line_shapes.straight,shape_kwargs = [],
-                 plot_base = True)
-        plt.axis('off')
-        plt.savefig("test.png")
+        # input_shape = np.array([0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1])
+        # decode_shape(input_shape,k=3,point_color = 'k',color = 'k',
+        #          label = None,base_fn = bases.polygon,base_kwargs = [],
+        #          shape_fn = line_shapes.straight,shape_kwargs = [],
+        #          plot_base = True)
+        # plt.axis('off')
+        # plt.savefig("test.png")
     
