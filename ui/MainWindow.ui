@@ -32,9 +32,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pb_load_rune2">
+       <widget class="QPushButton" name="pb_load_rune">
         <property name="text">
          <string>Load Rune</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pb_export_png">
+        <property name="text">
+         <string>Export as PNG</string>
         </property>
        </widget>
       </item>

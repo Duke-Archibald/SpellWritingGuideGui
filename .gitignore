@@ -1,4 +1,6 @@
 Uniques/
+*.sw
+*.sr
 *.png
 __pycache__/
 *.pyc

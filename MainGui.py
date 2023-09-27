@@ -8,7 +8,7 @@ import numpy as np
 import qdarkstyle
 from PyQt5.QtCore import QSettings
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow, QComboBox
+from PyQt5.QtWidgets import QMainWindow, QComboBox, QSlider, QLineEdit, QFileDialog
 from asyncqt import QApplication, QEventLoop
 from librosa.display import cmap
 from matplotlib import pyplot as plt
@@ -76,7 +76,6 @@ class MainWindow(QMainWindow):
 
         self.ui.cb_guide_line_type.addItems(linestyle)
 
-
         self.ui.vl_1.addWidget(self.toolbar)
         self.ui.vl_1.addWidget(self.canvas)
 
@@ -84,7 +83,8 @@ class MainWindow(QMainWindow):
         self.ui.cb_line_shape.currentTextChanged.connect(self.linechange)
 
         self.ui.pb_create_rune.clicked.connect(self.savespell)
-        self.ui.pb_load_rune2.clicked.connect(self.loadspell)
+        self.ui.pb_export_png.clicked.connect(self.exportspell)
+        self.ui.pb_load_rune.clicked.connect(self.loadspell)
         self.ui.pb_rollareavalue.clicked.connect(self.rollsValue)
         self.ui.pb_rollrange.clicked.connect(self.rollRange)
         self.ui.pb_self_value.clicked.connect(self.createItemArea)
@@ -152,7 +152,7 @@ class MainWindow(QMainWindow):
         return random.randint(1, 10)
 
     def rollB(self):
-        return int(round(random.randint(10, 200), -1)/2)
+        return int(round(random.randint(10, 200), -1) / 2)
 
     # def rollC(self):
     #
@@ -187,12 +187,13 @@ class MainWindow(QMainWindow):
     def createItemArea(self):
 
         def checkvalue(val):
-            att,non_repeating = self.non_repetingcheck()
+            att, non_repeating = self.non_repetingcheck()
             if val > len(non_repeating):
-                print("in",val)
-                return checkvalue(val - (len(non_repeating)/2))
+                print("in", val)
+                return checkvalue(val - (len(non_repeating) / 2))
             else:
                 return int(val)
+
         A = int(self.ui.le_value_A.text() if self.ui.le_value_A.text().isnumeric() else 0)
         B = int(self.ui.le_value_B.text() if self.ui.le_value_B.text().isnumeric() else 0)
         C = int(self.ui.le_value_C.text() if self.ui.le_value_C.text().isnumeric() else 0)
@@ -224,15 +225,15 @@ class MainWindow(QMainWindow):
             self.area = checkvalue(D * C)
 
         elif index == 6:
-            self.area = checkvalue(E*A)
+            self.area = checkvalue(E * A)
         elif index == 7:
-            self.area = checkvalue(B*A)
+            self.area = checkvalue(B * A)
         elif index == 8:
-            self.area = checkvalue(D**3)
+            self.area = checkvalue(D ** 3)
         elif index == 9:
-            self.area = checkvalue(E*F*2)
+            self.area = checkvalue(E * F * 2)
         elif index == 10:
-            self.area = checkvalue(E*F*np.pi)
+            self.area = checkvalue(E * F * np.pi)
 
     def basechange(self):
         self.ui.hs_base_1.blockSignals(True)
@@ -352,21 +353,51 @@ class MainWindow(QMainWindow):
                 self.ui.labelline_2.setText(name)
             if position == 3:
                 self.ui.labelline_1.setText(name)
-
+    def exportspell(self):
+        plt.savefig(self.savename, dpi=250)
     def savespell(self):
         plt.savefig(self.savename, dpi=250)
         targetImage = Image.open(self.savename)
         metadata = PngInfo()
+        metadata.add_text(str(self.ui.cb_line_shape.objectName()), str(self.ui.cb_line_shape.currentText()))
         metadata.add_text(str(self.ui.cb_base_shape.objectName()), str(self.ui.cb_base_shape.currentText()))
+        metadata.add_text(str(self.ui.hs_base_1.objectName()), str(self.ui.hs_base_1.value()))
+        metadata.add_text(str(self.ui.hs_base_2.objectName()), str(self.ui.hs_base_2.value()))
+        metadata.add_text(str(self.ui.hs_base_3.objectName()), str(self.ui.hs_base_3.value()))
+        metadata.add_text(str(self.ui.hs_base_4.objectName()), str(self.ui.hs_base_4.value()))
+        metadata.add_text(str(self.ui.le_range.objectName()), str(self.ui.le_range.text()))
 
-        targetImage.save(f"{self.savename.replace('.png','.sw')}", "PNG", pnginfo=metadata)
+        targetImage.save(f"{self.savename.replace('.png', '.sr')}", "PNG", pnginfo=metadata)
         os.remove(self.savename)
+
     def loadspell(self):
-        targetImage = Image.open(self.savename.replace('.png','.sw'))
-        meta = dict(targetImage.text)
-        self.ui.cb_base_shape.setCurrentText(meta[self.ui.cb_base_shape.objectName()])
-        print((targetImage.text))
-        targetImage.close()
+        dialog = QFileDialog(self)
+        dialog.setNameFilter("Spells rune (*.sr)")
+        dialog.setDirectory(r'C:\Users\DukeArchibald\PycharmProjects\SpellWritingGuideGui\spells')
+        if dialog.exec_():
+            fileName = dialog.selectedFiles()
+            targetImage = Image.open(fileName[0])
+            meta = dict(targetImage.text)
+            for x, c in meta.items():
+                if x.split("_")[0] == "cb":
+                    Qcb = self.findChild(QComboBox, x)
+                    # Qcb.blockSignals(True)
+                    Qcb.setCurrentText(c)
+                    # Qcb.blockSignals(False)
+                elif x.split("_")[0] == "hs":
+                    Qhs = self.findChild(QSlider, x)
+                    Qhs.blockSignals(True)
+                    Qhs.setValue(int(c))
+                    Qhs.blockSignals(False)
+                elif x.split("_")[0] == "le":
+                    Qle = self.findChild(QLineEdit, x)
+                    Qle.blockSignals(True)
+                    Qle.setText(c)
+                    Qle.blockSignals(False)
+            self.createItemArea()
+            self.draw()
+            targetImage.close()
+
     def non_repetingcheck(self):
         i_range = 0
         if self.ui.le_range.text().lower() == "touch":
@@ -390,7 +421,9 @@ class MainWindow(QMainWindow):
             non_repeating = generate_unique_combinations(N)
             non_repeating = np.array(non_repeating)
             np.save(f"Uniques/{N}.npy", non_repeating)
-        return attributes,non_repeating
+
+        return attributes, non_repeating
+
     def draw(self):
 
         self.figure.clear()
@@ -414,12 +447,15 @@ class MainWindow(QMainWindow):
                   f"range: {rang}",
                   f"area_type: {area}"]
         attributes, non_repeating = self.non_repetingcheck()
+        for x, attribute in enumerate(attributes):
+            if attribute > len(non_repeating):
+                attributes[x] = attribute - len(non_repeating)
         if len(colors) == 0 and breakdown is True:
             colors = [cmap(i / len(attributes)) for i in range(len(attributes))]
         title = f"spell level {level} from the {school} school,\n range of {rang} {area} with {dtype} damage type"
         title_filenameclean = title.replace("\n", "").replace("/", "-")
         self.savename = f"spells/{title_filenameclean} legend-{legend} breakdown-{breakdown}.png"
-        self.savename = self.savename.replace(" ","_")
+        self.savename = self.savename.replace(" ", "_")
         # draw_spell(self.figure, self.ui, level, rang, self.area, dtype, school, title=title, legend=legend,
         #            base_fn=base, base_kwargs=base_kwargs, shape_fn=lines, shape_kwargs=shape_kwargs,
         #            breakdown=breakdown, colors=colors)
