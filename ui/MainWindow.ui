@@ -31,6 +31,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="pb_load_rune2">
+        <property name="text">
+         <string>Load Rune</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item row="0" column="1">
@@ -43,7 +50,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="l_guide_line_type">
         <property name="text">
          <string>Guide line type</string>
         </property>
@@ -53,7 +60,7 @@
        <widget class="QComboBox" name="cb_guide_line_type"/>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_12">
+       <widget class="QLabel" name="l_guide_line_size">
         <property name="text">
          <string>Guide line size</string>
         </property>
@@ -70,14 +77,14 @@
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="l_marker_size">
         <property name="text">
-         <string>Dots size</string>
+         <string>Marker size</string>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QSpinBox" name="sb_dots_size"/>
+       <widget class="QSpinBox" name="sb_marker_size"/>
       </item>
       <item row="5" column="1">
        <widget class="QCheckBox" name="checkb_breakdown">
@@ -97,7 +104,7 @@
        </widget>
       </item>
       <item row="8" column="0">
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="l_color_map_name">
         <property name="text">
          <string>Color Map</string>
         </property>
@@ -107,7 +114,7 @@
        <widget class="QComboBox" name="cb_colormaps"/>
       </item>
       <item row="9" column="0">
-       <widget class="QLabel" name="label_10">
+       <widget class="QLabel" name="l_base_shape">
         <property name="text">
          <string>Base Shape</string>
         </property>
@@ -119,7 +126,7 @@
       <item row="10" column="0">
        <widget class="QLabel" name="labelbase_1">
         <property name="text">
-         <string>TextLabel</string>
+         <string>base option 1</string>
         </property>
        </widget>
       </item>
@@ -136,7 +143,7 @@
       <item row="11" column="0">
        <widget class="QLabel" name="labelbase_2">
         <property name="text">
-         <string>TextLabel</string>
+         <string>base option 2</string>
         </property>
        </widget>
       </item>
@@ -153,7 +160,7 @@
       <item row="12" column="0">
        <widget class="QLabel" name="labelbase_3">
         <property name="text">
-         <string>TextLabel</string>
+         <string>base option 3</string>
         </property>
        </widget>
       </item>
@@ -170,7 +177,7 @@
       <item row="13" column="0">
        <widget class="QLabel" name="labelbase_4">
         <property name="text">
-         <string>TextLabel</string>
+         <string>base option 4</string>
         </property>
        </widget>
       </item>
@@ -185,7 +192,7 @@
        </widget>
       </item>
       <item row="14" column="0">
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="l_line_shape">
         <property name="text">
          <string>Line Shape</string>
         </property>
@@ -197,7 +204,7 @@
       <item row="15" column="0">
        <widget class="QLabel" name="labelline_1">
         <property name="text">
-         <string>l1</string>
+         <string>line option1</string>
         </property>
        </widget>
       </item>
@@ -226,7 +233,7 @@
       <item row="16" column="0">
        <widget class="QLabel" name="labelline_2">
         <property name="text">
-         <string>l2</string>
+         <string>Line option 2</string>
         </property>
        </widget>
       </item>
@@ -238,7 +245,7 @@
        </widget>
       </item>
       <item row="17" column="0">
-       <widget class="QLabel" name="label_13">
+       <widget class="QLabel" name="l_spell_line_size">
         <property name="text">
          <string>Spell line size</string>
         </property>
@@ -251,7 +258,7 @@
        <widget class="QComboBox" name="cb_legend_pos"/>
       </item>
       <item row="7" column="0">
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="l_legend_pos">
         <property name="text">
          <string>legend position</string>
         </property>
@@ -293,7 +300,7 @@
     <item row="1" column="1">
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="l_level">
         <property name="text">
          <string>Level</string>
         </property>
@@ -303,7 +310,7 @@
        <widget class="QComboBox" name="cb_level"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="l_school">
         <property name="text">
          <string>School</string>
         </property>
@@ -313,7 +320,7 @@
        <widget class="QComboBox" name="cb_school"/>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="l_dtype">
         <property name="text">
          <string>Damage Type</string>
         </property>
@@ -325,7 +332,7 @@
       <item row="3" column="0">
        <widget class="QLineEdit" name="le_value_A">
         <property name="text">
-         <string>0</string>
+         <string/>
         </property>
         <property name="placeholderText">
          <string>A</string>
@@ -335,7 +342,7 @@
       <item row="3" column="1">
        <widget class="QLineEdit" name="le_value_D">
         <property name="text">
-         <string>0</string>
+         <string/>
         </property>
         <property name="placeholderText">
          <string>D</string>
@@ -345,7 +352,7 @@
       <item row="4" column="0">
        <widget class="QLineEdit" name="le_value_B">
         <property name="text">
-         <string>0</string>
+         <string/>
         </property>
         <property name="placeholderText">
          <string>B</string>
@@ -355,7 +362,7 @@
       <item row="4" column="1">
        <widget class="QLineEdit" name="le_value_E">
         <property name="text">
-         <string>0</string>
+         <string/>
         </property>
         <property name="placeholderText">
          <string>E</string>
@@ -365,7 +372,7 @@
       <item row="5" column="0">
        <widget class="QLineEdit" name="le_value_C">
         <property name="text">
-         <string>0</string>
+         <string/>
         </property>
         <property name="placeholderText">
          <string>C</string>
@@ -375,7 +382,7 @@
       <item row="5" column="1">
        <widget class="QLineEdit" name="le_value_F">
         <property name="text">
-         <string>0</string>
+         <string/>
         </property>
         <property name="placeholderText">
          <string>F</string>

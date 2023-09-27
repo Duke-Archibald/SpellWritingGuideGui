@@ -14,6 +14,8 @@ from librosa.display import cmap
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from PIL import Image
+from PIL.PngImagePlugin import PngInfo
 
 import bases
 import line_shapes
@@ -44,6 +46,10 @@ class MainWindow(QMainWindow):
 
         self.area = 0
         self.savename = "test.png"
+        self.figure = plt.figure()
+        self.canvas = FigureCanvas(self.figure)
+        self.toolbar = NavigationToolbar(self.canvas, self)
+
         self.app = app
         self.settings = QSettings("SpwllWrittingGuide", "Gui-1")
 
@@ -51,12 +57,15 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
 
         self.setWindowTitle("MainWindow")
+
         self.ui.cb_area.addItems(list(open("Attributes/area_types.txt", 'r').read().splitlines()))
         self.ui.cb_school.addItems(list(open("Attributes/school.txt", 'r').read().splitlines()))
         self.ui.cb_range_distance.addItems(list(open("Attributes/range.txt", 'r').read().splitlines()))
         self.ui.cb_dtype.addItems(list(open("Attributes/damage_types.txt", 'r').read().splitlines()))
         self.ui.cb_level.addItems(list(open("Attributes/levels.txt", 'r').read().splitlines()))
+
         self.ui.cb_colormaps.addItems(colormaps)
+
         self.ui.cb_base_shape.addItems([attribute for attribute in dir(bases) if
                                         callable(getattr(bases, attribute)) and attribute.startswith('__') is False]
                                        )
@@ -64,25 +73,31 @@ class MainWindow(QMainWindow):
                                         callable(getattr(line_shapes, attribute)) and attribute.startswith(
                                             '__') is False]
                                        )
+
         self.ui.cb_guide_line_type.addItems(linestyle)
-        self.ui.cb_base_shape.currentTextChanged.connect(self.basechange)
-        self.ui.cb_line_shape.currentTextChanged.connect(self.linechange)
-        self.figure = plt.figure()
-        self.canvas = FigureCanvas(self.figure)
-        self.toolbar = NavigationToolbar(self.canvas, self)
+
+
         self.ui.vl_1.addWidget(self.toolbar)
         self.ui.vl_1.addWidget(self.canvas)
+
+        self.ui.cb_base_shape.currentTextChanged.connect(self.basechange)
+        self.ui.cb_line_shape.currentTextChanged.connect(self.linechange)
+
         self.ui.pb_create_rune.clicked.connect(self.savespell)
+        self.ui.pb_load_rune2.clicked.connect(self.loadspell)
         self.ui.pb_rollareavalue.clicked.connect(self.rollsValue)
         self.ui.pb_rollrange.clicked.connect(self.rollRange)
         self.ui.pb_self_value.clicked.connect(self.createItemArea)
+
         self.ui.cb_area_type.currentTextChanged.connect(self.createItemArea)
+
         self.ui.hs_line_1.valueChanged.connect(self.draw)
         self.ui.hs_line_2.clicked.connect(self.draw)
         self.ui.hs_base_1.valueChanged.connect(self.draw)
         self.ui.hs_base_2.valueChanged.connect(self.draw)
         self.ui.hs_base_3.valueChanged.connect(self.draw)
         self.ui.hs_base_4.valueChanged.connect(self.draw)
+
         self.ui.cb_colormaps.currentTextChanged.connect(self.draw)
         self.ui.cb_area.currentTextChanged.connect(self.draw)
         self.ui.cb_dtype.currentTextChanged.connect(self.draw)
@@ -90,8 +105,11 @@ class MainWindow(QMainWindow):
         self.ui.cb_school.currentTextChanged.connect(self.draw)
         self.ui.cb_range_distance.currentTextChanged.connect(self.draw)
         self.ui.cb_range_form.currentTextChanged.connect(self.draw)
+        self.ui.cb_base_shape.currentTextChanged.connect(self.draw)
+
         self.ui.checkb_legend.clicked.connect(self.draw)
         self.ui.checkb_breakdown.clicked.connect(self.draw)
+
         self.ui.pb_rollareavalue.clicked.connect(self.draw)
         self.ui.pb_rollrange.clicked.connect(self.draw)
         self.ui.pb_self_value.clicked.connect(self.draw)
@@ -116,6 +134,7 @@ class MainWindow(QMainWindow):
         self.ui.hs_line_2.setVisible(False)
         self.basechange()
         self.linechange()
+        self.draw()
 
         # draws a spell given certain values by comparing it to input txt
 
@@ -174,12 +193,12 @@ class MainWindow(QMainWindow):
                 return checkvalue(val - (len(non_repeating)/2))
             else:
                 return int(val)
-        A = int(self.ui.le_value_A.text())
-        B = int(self.ui.le_value_B.text())
-        C = int(self.ui.le_value_C.text())
-        D = int(self.ui.le_value_D.text())
-        E = int(self.ui.le_value_E.text())
-        F = int(self.ui.le_value_F.text())
+        A = int(self.ui.le_value_A.text() if self.ui.le_value_A.text().isnumeric() else 0)
+        B = int(self.ui.le_value_B.text() if self.ui.le_value_B.text().isnumeric() else 0)
+        C = int(self.ui.le_value_C.text() if self.ui.le_value_C.text().isnumeric() else 0)
+        D = int(self.ui.le_value_D.text() if self.ui.le_value_D.text().isnumeric() else 0)
+        E = int(self.ui.le_value_E.text() if self.ui.le_value_E.text().isnumeric() else 0)
+        F = int(self.ui.le_value_F.text() if self.ui.le_value_F.text().isnumeric() else 0)
         self.ui.cb_area_type.setItemText(3, f"Wall {B} feet long, {C} feet tall, {A} feet thick")
         self.ui.cb_area_type.setItemText(4, f"Sphere of radius {D} feet")
         self.ui.cb_area_type.setItemText(5, f"Cylinder of radius {D} feets, {C} feets tall")
@@ -336,8 +355,18 @@ class MainWindow(QMainWindow):
 
     def savespell(self):
         plt.savefig(self.savename, dpi=250)
+        targetImage = Image.open(self.savename)
+        metadata = PngInfo()
+        metadata.add_text(str(self.ui.cb_base_shape.objectName()), str(self.ui.cb_base_shape.currentText()))
 
-
+        targetImage.save(f"{self.savename.replace('.png','.sw')}", "PNG", pnginfo=metadata)
+        os.remove(self.savename)
+    def loadspell(self):
+        targetImage = Image.open(self.savename.replace('.png','.sw'))
+        meta = dict(targetImage.text)
+        self.ui.cb_base_shape.setCurrentText(meta[self.ui.cb_base_shape.objectName()])
+        print((targetImage.text))
+        targetImage.close()
     def non_repetingcheck(self):
         i_range = 0
         if self.ui.le_range.text().lower() == "touch":
@@ -390,6 +419,7 @@ class MainWindow(QMainWindow):
         title = f"spell level {level} from the {school} school,\n range of {rang} {area} with {dtype} damage type"
         title_filenameclean = title.replace("\n", "").replace("/", "-")
         self.savename = f"spells/{title_filenameclean} legend-{legend} breakdown-{breakdown}.png"
+        self.savename = self.savename.replace(" ","_")
         # draw_spell(self.figure, self.ui, level, rang, self.area, dtype, school, title=title, legend=legend,
         #            base_fn=base, base_kwargs=base_kwargs, shape_fn=lines, shape_kwargs=shape_kwargs,
         #            breakdown=breakdown, colors=colors)
