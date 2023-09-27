@@ -1,7 +1,7 @@
 # SpellWritingGuide
 
 This is the tidier version of the code used in the [Spell Writing Guide](https://www.drivethrurpg.com/product/429711/The-Spell-Writing-Guide?manufacturers_id=22808) which aims to provide a simple method by which we can draw spells in D&D 5e. The system is general to any system and easy to modify, I will explain this later.
-
+This is the GUI version that is not really adaptable for now, but I will try to make it so
 ## Setup
 
 You can clone the repo for use simply by typing:
@@ -38,7 +38,6 @@ or you can double-click the ```MainGui.py``` file in the root folder
   
 ## Modifying
   
-You can add your own options to the inputs by adding them in a new line in the relevant .txt files in "Attributes/"
-  
+you can't add more for now I will add some soon
   
 
