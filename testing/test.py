@@ -8,3 +8,6 @@ func = getattr(bases,method_list[4])
 sig = inspect.signature(func)
 for position, (name, param) in enumerate(sig.parameters.items()):
     print(f"{position} {name}")
+import sys
+print("Python version")
+print (sys.version)

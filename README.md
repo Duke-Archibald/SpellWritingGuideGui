@@ -6,33 +6,35 @@ This is the tidier version of the code used in the [Spell Writing Guide](https:/
 
 You can clone the repo for use simply by typing:
 
-```git clone https://github.com/GorillaOfDestiny/SpellWritingGuide```
+```git clone https://github.com/Duke-Archibald/SpellWritingGuideGui```
 
 When initially running the code a folder called "Uniques" with files such as "11.npy" being created within. These contain the rotationally unique binary numbers the method relies on. They will only be created when such a file does not already exist in a directory called "Uniques".
 
 ### Dependencies
 
-Python vesion used in development: Python 3.10.4
+Python version used in development: Python 3.11.4 
+but should run with anything more than 3.9
 
 The required python modules are:
+  - pyqt5
   - numpy
   - matplotlib
   - argparse
   - math
   - os
   - tqdm
+  - qdarkstyle
+  - asyncqt
+  - asyncio
+  - inspect
+  - matplotlib.backends.backend_qt5agg
  
 ## Running the file
 
-to run you type the command: ```py writer.py```
+to run you type the command: ```py MainGui.py```
 
-for information about optional commands type: ```py writer.py --help```
+or you can double-click the ```MainGui.py``` file in the root folder
 
-standard input for a spell is ```py writer.py -level <level> -range <range> -area <area> -dtype <dtype> -school <school>``` with <value> replaced by relevant lowercase strings. Defaults to make "Fireball".
-  
-To see the available inputs (and their format) type:  ```py writer.py --arg_help -<arg>...```
-  
-input options are defined by the .txt files in "Attributes/" so ```--arg_help``` simply prints the values in this file.
   
 ## Modifying
   
