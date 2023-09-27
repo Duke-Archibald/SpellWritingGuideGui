@@ -6,7 +6,7 @@ import math
 
 def polygon(n,radius = 1,start_angle = None):
     #Creates x,y data for an n-sided polygon
-    radius = float(radius)
+    radius = float(radius/10)
 
     if start_angle == None:
         start_angle = np.pi/n
