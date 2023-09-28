@@ -8,7 +8,7 @@ import numpy as np
 import qdarkstyle
 from PyQt5.QtCore import QSettings
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow, QComboBox, QSlider, QLineEdit, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QComboBox, QSlider, QLineEdit, QFileDialog, QSpinBox
 from asyncqt import QApplication, QEventLoop
 from librosa.display import cmap
 from matplotlib import pyplot as plt
@@ -44,9 +44,15 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.Qhs_list = []
+        self.Qle_list = []
+        self.Qcb_list = []
+        self.Qsb_list = []
         self.area = 0
         self.savename = "test.png"
-        self.figure = plt.figure()
+        self.figure2 = plt.figure(2)
+        self.figure = plt.figure(1)
+
         self.canvas = FigureCanvas(self.figure)
         self.toolbar = NavigationToolbar(self.canvas, self)
 
@@ -353,22 +359,52 @@ class MainWindow(QMainWindow):
                 self.ui.labelline_2.setText(name)
             if position == 3:
                 self.ui.labelline_1.setText(name)
+
     def exportspell(self):
-        plt.savefig(self.savename, dpi=250)
+        plt.figure(2)
+        self.figure2.set_size_inches(20, 20)
+        self.draw()
+
+        plt.savefig(self.savename, dpi=100)
+        plt.figure(1)
+        self.draw()
     def savespell(self):
+        for x in range(self.ui.fl_lines.count()):
+            widget = self.ui.fl_lines.itemAt(x).widget()
+            if isinstance(widget, QComboBox):
+                self.Qcb_list.append(widget)
+            elif isinstance(widget, QSpinBox):
+                self.Qsb_list.append(widget)
+            elif isinstance(widget, QLineEdit):
+                self.Qle_list.append(widget)
+            elif isinstance(widget, QSlider):
+                self.Qhs_list.append(widget)
         plt.savefig(self.savename, dpi=250)
         targetImage = Image.open(self.savename)
         metadata = PngInfo()
-        metadata.add_text(str(self.ui.cb_line_shape.objectName()), str(self.ui.cb_line_shape.currentText()))
-        metadata.add_text(str(self.ui.cb_base_shape.objectName()), str(self.ui.cb_base_shape.currentText()))
-        metadata.add_text(str(self.ui.hs_base_1.objectName()), str(self.ui.hs_base_1.value()))
-        metadata.add_text(str(self.ui.hs_base_2.objectName()), str(self.ui.hs_base_2.value()))
-        metadata.add_text(str(self.ui.hs_base_3.objectName()), str(self.ui.hs_base_3.value()))
-        metadata.add_text(str(self.ui.hs_base_4.objectName()), str(self.ui.hs_base_4.value()))
-        metadata.add_text(str(self.ui.le_range.objectName()), str(self.ui.le_range.text()))
+        for widget in self.Qcb_list:
+            metadata.add_text(str(widget.objectName()),str(widget.currentText()))
+        for widget in self.Qhs_list:
+            metadata.add_text(str(widget.objectName()),str(widget.value()))
+        for widget in self.Qle_list:
+            metadata.add_text(str(widget.objectName()), str(widget.text()))
+        for widget in self.Qsb_list:
+            metadata.add_text(str(widget.objectName()),str(widget.value()))
+
+
+
+        # metadata.add_text(str(self.ui.cb_line_shape.objectName()), str(self.ui.cb_line_shape.currentText()))
+        # metadata.add_text(str(self.ui.cb_base_shape.objectName()), str(self.ui.cb_base_shape.currentText()))
+        # metadata.add_text(str(self.ui.hs_base_1.objectName()), str(self.ui.hs_base_1.value()))
+        # metadata.add_text(str(self.ui.hs_base_2.objectName()), str(self.ui.hs_base_2.value()))
+        # metadata.add_text(str(self.ui.hs_base_3.objectName()), str(self.ui.hs_base_3.value()))
+        # metadata.add_text(str(self.ui.hs_base_4.objectName()), str(self.ui.hs_base_4.value()))
+        # metadata.add_text(str(self.ui.le_range.objectName()), str(self.ui.le_range.text()))
 
         targetImage.save(f"{self.savename.replace('.png', '.sr')}", "PNG", pnginfo=metadata)
+        targetImage2 = Image.open(self.savename.replace('.png', '.sr'))
         os.remove(self.savename)
+        print(targetImage2.text)
 
     def loadspell(self):
         dialog = QFileDialog(self)
@@ -378,22 +414,27 @@ class MainWindow(QMainWindow):
             fileName = dialog.selectedFiles()
             targetImage = Image.open(fileName[0])
             meta = dict(targetImage.text)
-            for x, c in meta.items():
-                if x.split("_")[0] == "cb":
-                    Qcb = self.findChild(QComboBox, x)
+            for name, value in meta.items():
+                if name.split("_")[0] == "cb":
+                    Qcb = self.findChild(QComboBox, name)
                     # Qcb.blockSignals(True)
-                    Qcb.setCurrentText(c)
+                    Qcb.setCurrentText(value)
                     # Qcb.blockSignals(False)
-                elif x.split("_")[0] == "hs":
-                    Qhs = self.findChild(QSlider, x)
+                elif name.split("_")[0] == "hs":
+                    Qhs = self.findChild(QSlider, name)
                     Qhs.blockSignals(True)
-                    Qhs.setValue(int(c))
+                    Qhs.setValue(int(value))
                     Qhs.blockSignals(False)
-                elif x.split("_")[0] == "le":
-                    Qle = self.findChild(QLineEdit, x)
+                elif name.split("_")[0] == "le":
+                    Qle = self.findChild(QLineEdit, name)
                     Qle.blockSignals(True)
-                    Qle.setText(c)
+                    Qle.setText(value)
                     Qle.blockSignals(False)
+                elif name.split("_")[0] == "sb":
+                    Qsb = self.findChild(QSpinBox, name)
+                    Qsb.blockSignals(True)
+                    Qsb.setValue(int(value))
+                    Qsb.blockSignals(False)
             self.createItemArea()
             self.draw()
             targetImage.close()

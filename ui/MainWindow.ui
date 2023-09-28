@@ -48,7 +48,7 @@
      </layout>
     </item>
     <item row="0" column="1">
-     <layout class="QFormLayout" name="formLayout_2">
+     <layout class="QFormLayout" name="fl_lines">
       <item row="0" column="1">
        <widget class="QCheckBox" name="checkb_guide_line">
         <property name="text">
