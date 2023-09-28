@@ -14,16 +14,9 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="vl_1">
-      <item>
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>plot display</string>
-        </property>
-       </widget>
-      </item>
       <item>
        <widget class="QPushButton" name="pb_create_rune">
         <property name="text">
@@ -47,468 +40,6 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="1">
-     <layout class="QFormLayout" name="fl_lines">
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="checkb_guide_line">
-        <property name="text">
-         <string>Guide Lines</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="l_guide_line_type">
-        <property name="text">
-         <string>Guide line type</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QComboBox" name="cb_guide_line_type"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="l_guide_line_size">
-        <property name="text">
-         <string>Guide line size</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="sb_guide_line_size"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="QCheckBox" name="checkb_dots">
-        <property name="text">
-         <string>Dots</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="l_marker_size">
-        <property name="text">
-         <string>Marker size</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="sb_marker_size"/>
-      </item>
-      <item row="5" column="1">
-       <widget class="QCheckBox" name="checkb_breakdown">
-        <property name="text">
-         <string>Breakdown (line color)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QCheckBox" name="checkb_legend">
-        <property name="text">
-         <string>Legend</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="l_color_map_name">
-        <property name="text">
-         <string>Color Map</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="QComboBox" name="cb_colormaps"/>
-      </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="l_base_shape">
-        <property name="text">
-         <string>Base Shape</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1">
-       <widget class="QComboBox" name="cb_base_shape"/>
-      </item>
-      <item row="10" column="0">
-       <widget class="QLabel" name="labelbase_1">
-        <property name="text">
-         <string>base option 1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1">
-       <widget class="QSlider" name="hs_base_1">
-        <property name="minimum">
-         <number>-99</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="labelbase_2">
-        <property name="text">
-         <string>base option 2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1">
-       <widget class="QSlider" name="hs_base_2">
-        <property name="minimum">
-         <number>-99</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="0">
-       <widget class="QLabel" name="labelbase_3">
-        <property name="text">
-         <string>base option 3</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="1">
-       <widget class="QSlider" name="hs_base_3">
-        <property name="minimum">
-         <number>-99</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="0">
-       <widget class="QLabel" name="labelbase_4">
-        <property name="text">
-         <string>base option 4</string>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="1">
-       <widget class="QSlider" name="hs_base_4">
-        <property name="minimum">
-         <number>-99</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="0">
-       <widget class="QLabel" name="l_line_shape">
-        <property name="text">
-         <string>Line Shape</string>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="1">
-       <widget class="QComboBox" name="cb_line_shape"/>
-      </item>
-      <item row="15" column="0">
-       <widget class="QLabel" name="labelline_1">
-        <property name="text">
-         <string>line option1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="15" column="1">
-       <widget class="QSlider" name="hs_line_1">
-        <property name="minimum">
-         <number>-999</number>
-        </property>
-        <property name="maximum">
-         <number>999</number>
-        </property>
-        <property name="value">
-         <number>0</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="16" column="0">
-       <widget class="QLabel" name="labelline_2">
-        <property name="text">
-         <string>Line option 2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="16" column="1">
-       <widget class="QCheckBox" name="hs_line_2">
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-      </item>
-      <item row="17" column="0">
-       <widget class="QLabel" name="l_spell_line_size">
-        <property name="text">
-         <string>Spell line size</string>
-        </property>
-       </widget>
-      </item>
-      <item row="17" column="1">
-       <widget class="QSpinBox" name="sb_spell_line_size"/>
-      </item>
-      <item row="7" column="1">
-       <widget class="QComboBox" name="cb_legend_pos"/>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="l_legend_pos">
-        <property name="text">
-         <string>legend position</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="0">
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QComboBox" name="cb_range_distance"/>
-        </item>
-        <item>
-         <widget class="QComboBox" name="cb_range_form"/>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="0">
-       <widget class="QComboBox" name="cb_area"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QComboBox" name="cb_range">
-        <item>
-         <property name="text">
-          <string>none</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>test</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="1">
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="l_level">
-        <property name="text">
-         <string>Level</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="cb_level"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="l_school">
-        <property name="text">
-         <string>School</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QComboBox" name="cb_school"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="l_dtype">
-        <property name="text">
-         <string>Damage Type</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QComboBox" name="cb_dtype"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLineEdit" name="le_value_A">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>A</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="le_value_D">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>D</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLineEdit" name="le_value_B">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>B</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="le_value_E">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>E</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLineEdit" name="le_value_C">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>C</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="le_value_F">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>F</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QPushButton" name="pb_self_value">
-        <property name="minimumSize">
-         <size>
-          <width>133</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>register self value</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QPushButton" name="pb_rollareavalue">
-        <property name="text">
-         <string>Roll area values</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0" colspan="2">
-       <widget class="QComboBox" name="cb_area_type">
-        <item>
-         <property name="text">
-          <string>Area type</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Single target</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Multiple target</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Wall B feets long, C feets tall, 5feets thick</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Sphere of radius D feets</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Cylinder of radius D feets, C feets tall</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>E feets Cone</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>B feets line, 5 feets thick</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>D feets Cube</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>E feets Square F feets of the ground</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>E feets Circle F feets of the ground</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="QPushButton" name="pb_rollrange">
-        <property name="text">
-         <string>Roll range</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLineEdit" name="le_range">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="l_feets">
-          <property name="text">
-           <string>Feets</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -522,6 +53,450 @@
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="dockWidget">
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <layout class="QVBoxLayout" name="vl_setting">
+       <item>
+        <layout class="QFormLayout" name="fl_lines">
+         <item row="0" column="1">
+          <widget class="QCheckBox" name="checkb_guide_line">
+           <property name="text">
+            <string>Guide Lines</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="l_guide_line_type">
+           <property name="text">
+            <string>Guide line type</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="cb_guide_line_type"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="l_guide_line_size">
+           <property name="text">
+            <string>Guide line size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="sb_guide_line_size"/>
+         </item>
+         <item row="3" column="1">
+          <widget class="QCheckBox" name="checkb_dots">
+           <property name="text">
+            <string>Dots</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="l_marker_size">
+           <property name="text">
+            <string>Marker size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QSpinBox" name="sb_marker_size"/>
+         </item>
+         <item row="5" column="1">
+          <widget class="QCheckBox" name="checkb_breakdown">
+           <property name="text">
+            <string>Breakdown (line color)</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QCheckBox" name="checkb_legend">
+           <property name="text">
+            <string>Legend</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="l_color_map_name">
+           <property name="text">
+            <string>Color Map</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QComboBox" name="cb_colormaps"/>
+         </item>
+         <item row="9" column="0">
+          <widget class="QLabel" name="l_base_shape">
+           <property name="text">
+            <string>Base Shape</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QComboBox" name="cb_base_shape"/>
+         </item>
+         <item row="10" column="0">
+          <widget class="QLabel" name="labelbase_1">
+           <property name="text">
+            <string>base option 1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="1">
+          <widget class="QSlider" name="hs_base_1">
+           <property name="minimum">
+            <number>-99</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="0">
+          <widget class="QLabel" name="labelbase_2">
+           <property name="text">
+            <string>base option 2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <widget class="QSlider" name="hs_base_2">
+           <property name="minimum">
+            <number>-99</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="12" column="0">
+          <widget class="QLabel" name="labelbase_3">
+           <property name="text">
+            <string>base option 3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="12" column="1">
+          <widget class="QSlider" name="hs_base_3">
+           <property name="minimum">
+            <number>-99</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="0">
+          <widget class="QLabel" name="labelbase_4">
+           <property name="text">
+            <string>base option 4</string>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="1">
+          <widget class="QSlider" name="hs_base_4">
+           <property name="minimum">
+            <number>-99</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="14" column="0">
+          <widget class="QLabel" name="l_line_shape">
+           <property name="text">
+            <string>Line Shape</string>
+           </property>
+          </widget>
+         </item>
+         <item row="14" column="1">
+          <widget class="QComboBox" name="cb_line_shape"/>
+         </item>
+         <item row="15" column="0">
+          <widget class="QLabel" name="labelline_1">
+           <property name="text">
+            <string>line option1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="15" column="1">
+          <widget class="QSlider" name="hs_line_1">
+           <property name="minimum">
+            <number>-999</number>
+           </property>
+           <property name="maximum">
+            <number>999</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+           <property name="invertedControls">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="16" column="0">
+          <widget class="QLabel" name="labelline_2">
+           <property name="text">
+            <string>Line option 2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="16" column="1">
+          <widget class="QCheckBox" name="hs_line_2">
+           <property name="text">
+            <string>CheckBox</string>
+           </property>
+          </widget>
+         </item>
+         <item row="17" column="0">
+          <widget class="QLabel" name="l_spell_line_size">
+           <property name="text">
+            <string>Spell line size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="17" column="1">
+          <widget class="QSpinBox" name="sb_spell_line_size"/>
+         </item>
+         <item row="7" column="1">
+          <widget class="QComboBox" name="cb_legend_pos"/>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="l_legend_pos">
+           <property name="text">
+            <string>legend position</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="l_level">
+           <property name="text">
+            <string>Level</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="cb_level"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="l_school">
+           <property name="text">
+            <string>School</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="cb_school"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="l_dtype">
+           <property name="text">
+            <string>Damage Type</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="cb_dtype"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLineEdit" name="le_value_A">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>A</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="le_value_D">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>D</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLineEdit" name="le_value_B">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>B</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="le_value_E">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>E</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLineEdit" name="le_value_C">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>C</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="le_value_F">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>F</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QPushButton" name="pb_self_value">
+           <property name="minimumSize">
+            <size>
+             <width>133</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>register self value</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QPushButton" name="pb_rollareavalue">
+           <property name="text">
+            <string>Roll area values</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="2">
+          <widget class="QComboBox" name="cb_area_type">
+           <item>
+            <property name="text">
+             <string>Area type</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Single target</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Multiple target</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Wall B feets long, C feets tall, 5feets thick</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Sphere of radius D feets</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Cylinder of radius D feets, C feets tall</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>E feets Cone</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>B feets line, 5 feets thick</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>D feets Cube</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>E feets Square F feets of the ground</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>E feets Circle F feets of the ground</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QPushButton" name="pb_rollrange">
+           <property name="text">
+            <string>Roll range</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0">
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLineEdit" name="le_range">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="l_feets">
+             <property name="text">
+              <string>Feets</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>

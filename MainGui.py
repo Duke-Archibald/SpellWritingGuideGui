@@ -64,9 +64,9 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("MainWindow")
 
-        self.ui.cb_area.addItems(list(open("Attributes/area_types.txt", 'r').read().splitlines()))
+        # self.ui.cb_area.addItems(list(open("Attributes/area_types.txt", 'r').read().splitlines()))
         self.ui.cb_school.addItems(list(open("Attributes/school.txt", 'r').read().splitlines()))
-        self.ui.cb_range_distance.addItems(list(open("Attributes/range.txt", 'r').read().splitlines()))
+        # self.ui.cb_range_distance.addItems(list(open("Attributes/range.txt", 'r').read().splitlines()))
         self.ui.cb_dtype.addItems(list(open("Attributes/damage_types.txt", 'r').read().splitlines()))
         self.ui.cb_level.addItems(list(open("Attributes/levels.txt", 'r').read().splitlines()))
 
@@ -105,12 +105,12 @@ class MainWindow(QMainWindow):
         self.ui.hs_base_4.valueChanged.connect(self.draw)
 
         self.ui.cb_colormaps.currentTextChanged.connect(self.draw)
-        self.ui.cb_area.currentTextChanged.connect(self.draw)
+        # self.ui.cb_area.currentTextChanged.connect(self.draw)
         self.ui.cb_dtype.currentTextChanged.connect(self.draw)
         self.ui.cb_level.currentTextChanged.connect(self.draw)
         self.ui.cb_school.currentTextChanged.connect(self.draw)
-        self.ui.cb_range_distance.currentTextChanged.connect(self.draw)
-        self.ui.cb_range_form.currentTextChanged.connect(self.draw)
+        # self.ui.cb_range_distance.currentTextChanged.connect(self.draw)
+        # self.ui.cb_range_form.currentTextChanged.connect(self.draw)
         self.ui.cb_base_shape.currentTextChanged.connect(self.draw)
 
         self.ui.checkb_legend.clicked.connect(self.draw)
@@ -369,16 +369,18 @@ class MainWindow(QMainWindow):
         plt.figure(1)
         self.draw()
     def savespell(self):
-        for x in range(self.ui.fl_lines.count()):
-            widget = self.ui.fl_lines.itemAt(x).widget()
-            if isinstance(widget, QComboBox):
-                self.Qcb_list.append(widget)
-            elif isinstance(widget, QSpinBox):
-                self.Qsb_list.append(widget)
-            elif isinstance(widget, QLineEdit):
-                self.Qle_list.append(widget)
-            elif isinstance(widget, QSlider):
-                self.Qhs_list.append(widget)
+        for y in range(self.ui.vl_setting.count()):
+            layout = self.ui.vl_setting.itemAt(y)
+            for x in range(layout.count()):
+                widget = layout.itemAt(x).widget()
+                if isinstance(widget, QComboBox):
+                    self.Qcb_list.append(widget)
+                elif isinstance(widget, QSpinBox):
+                    self.Qsb_list.append(widget)
+                elif isinstance(widget, QLineEdit):
+                    self.Qle_list.append(widget)
+                elif isinstance(widget, QSlider):
+                    self.Qhs_list.append(widget)
         plt.savefig(self.savename, dpi=250)
         targetImage = Image.open(self.savename)
         metadata = PngInfo()
