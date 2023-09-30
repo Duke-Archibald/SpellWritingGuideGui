@@ -5,37 +5,62 @@ import random
 import sys
 
 import numpy as np
+import cmasher as cmr
 import qdarkstyle
-from PyQt5.QtCore import QSettings
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow, QComboBox, QSlider, QLineEdit, QFileDialog, QSpinBox
-from asyncqt import QApplication, QEventLoop
-from librosa.display import cmap
-from matplotlib import pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from PIL import Image
 from PIL.PngImagePlugin import PngInfo
+from PyQt5.QtCore import QSettings
+from PyQt5.QtGui import QIcon, QColor
+from PyQt5.QtWidgets import QMainWindow, QComboBox, QSlider, QLineEdit, QFileDialog, QSpinBox, QColorDialog, \
+    QPushButton, QCheckBox
+from asyncqt import QApplication, QEventLoop
+from colour import Color
+from matplotlib import pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.colors import LinearSegmentedColormap
 
 import bases
 import line_shapes
 from ui.MainWindowUI import Ui_MainWindow
-from writer import draw_spell, generate_unique_combinations, load_attribute, draw_multiple_inputs
+from writer import generate_unique_combinations, draw_multiple_inputs
 
 os.system("pyuic5 -o ui/MainWindowUI.py ui/MainWindow.ui")
-colormaps = ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'Greys', 'Purples', 'Blues', 'Greens', 'Oranges',
-             'Reds',
-             'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
-             'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn', 'binary', 'gist_yarg', 'gist_gray', 'gray', 'bone',
-             'pink', 'spring', 'summer', 'autumn', 'winter', 'cool',
-             'Wistia', 'hot', 'afmhot', 'gist_heat', 'copper', 'PiYG', 'PRGn', 'BrBG', 'PuOr', 'RdGy', 'RdBu', 'RdYlBu',
-             'RdYlGn', 'Spectral', 'coolwarm', 'bwr', 'seismic', 'twilight', 'twilight_shifted', 'hsv', 'Pastel1',
-             'Pastel2', 'Paired', 'Accent', 'Dark2',
-             'Set1', 'Set2', 'Set3', 'tab10', 'tab20', 'tab20b',
-             'tab20c', 'flag', 'prism', 'ocean', 'gist_earth', 'terrain',
-             'gist_stern', 'gnuplot', 'gnuplot2', 'CMRmap',
-             'cubehelix', 'brg', 'gist_rainbow', 'rainbow', 'jet',
-             'turbo', 'nipy_spectral', 'gist_ncar']
+colormaps = ['custom','viridis', 'viridis_r', 'plasma', 'plasma_r', 'inferno', 'inferno_r', 'magma', 'magma_r',
+             'cividis', 'cividis_r', 'Greys', 'Greys_r', 'Purples', 'Purples_r', 'Blues', 'Blues_r', 'Greens',
+             'Greens_r', 'Oranges', 'Oranges_r', 'Reds', 'Reds_r', 'YlOrBr', 'YlOrBr_r', 'YlOrRd', 'YlOrRd_r', 'OrRd',
+             'OrRd_r', 'PuRd', 'PuRd_r', 'RdPu', 'RdPu_r', 'BuPu', 'BuPu_r', 'GnBu', 'GnBu_r', 'PuBu', 'PuBu_r',
+             'YlGnBu', 'YlGnBu_r', 'PuBuGn', 'PuBuGn_r', 'BuGn', 'BuGn_r', 'YlGn', 'YlGn_r', 'binary', 'binary_r',
+             'gist_yarg', 'gist_yarg_r', 'gist_gray', 'gist_gray_r', 'gray', 'gray_r', 'bone', 'bone_r', 'pink',
+             'pink_r', 'spring', 'spring_r', 'summer', 'summer_r', 'autumn', 'autumn_r', 'winter', 'winter_r', 'cool',
+             'cool_r', 'Wistia', 'Wistia_r', 'hot', 'hot_r', 'afmhot', 'afmhot_r', 'gist_heat', 'gist_heat_r', 'copper',
+             'copper_r', 'PiYG', 'PiYG_r', 'PRGn', 'PRGn_r', 'BrBG', 'BrBG_r', 'PuOr', 'PuOr_r', 'RdGy', 'RdGy_r',
+             'RdBu', 'RdBu_r', 'RdYlBu', 'RdYlBu_r', 'RdYlGn', 'RdYlGn_r', 'Spectral', 'Spectral_r', 'coolwarm',
+             'coolwarm_r', 'bwr', 'bwr_r', 'seismic', 'seismic_r', 'twilight', 'twilight_r', 'twilight_shifted',
+             'twilight_shifted_r', 'hsv', 'hsv_r', 'Pastel1', 'Pastel1_r', 'Pastel2', 'Pastel2_r', 'Paired', 'Paired_r',
+             'Accent', 'Accent_r', 'Dark2', 'Dark2_r', 'Set1', 'Set1_r', 'Set2', 'Set2_r', 'Set3', 'Set3_r', 'tab10',
+             'tab10_r', 'tab20', 'tab20_r', 'tab20b', 'tab20b_r', 'tab20c', 'tab20c_r', 'flag', 'flag_r', 'prism',
+             'prism_r', 'ocean', 'ocean_r', 'gist_earth', 'gist_earth_r', 'terrain', 'terrain_r', 'gist_stern',
+             'gist_stern_r', 'gnuplot', 'gnuplot_r', 'gnuplot2', 'gnuplot2_r', 'CMRmap', 'CMRmap_r', 'cubehelix',
+             'cubehelix_r', 'brg', 'brg_r', 'gist_rainbow', 'gist_rainbow_r', 'rainbow', 'rainbow_r', 'jet', 'jet_r',
+             'turbo', 'turbo_r', 'nipy_spectral', 'nipy_spectral_r', 'gist_ncar', 'gist_ncar_r', 'cmr.amber',
+             'cmr.amber_r', 'cmr.amethyst', 'cmr.amethyst_r', 'cmr.apple', 'cmr.apple_r', 'cmr.arctic', 'cmr.arctic_r',
+             'cmr.bubblegum', 'cmr.bubblegum_r', 'cmr.chroma', 'cmr.chroma_r', 'cmr.copper', 'cmr.copper_r',
+             'cmr.copper_s', 'cmr.copper_s_r', 'cmr.cosmic', 'cmr.cosmic_r', 'cmr.dusk', 'cmr.dusk_r', 'cmr.eclipse',
+             'cmr.eclipse_r', 'cmr.ember', 'cmr.ember_r', 'cmr.emerald', 'cmr.emerald_r', 'cmr.emergency',
+             'cmr.emergency_r', 'cmr.emergency_s', 'cmr.emergency_s_r', 'cmr.fall', 'cmr.fall_r', 'cmr.flamingo',
+             'cmr.flamingo_r', 'cmr.freeze', 'cmr.freeze_r', 'cmr.fusion', 'cmr.fusion_r', 'cmr.gem', 'cmr.gem_r',
+             'cmr.ghostlight', 'cmr.ghostlight_r', 'cmr.gothic', 'cmr.gothic_r', 'cmr.guppy', 'cmr.guppy_r',
+             'cmr.holly', 'cmr.holly_r', 'cmr.horizon', 'cmr.horizon_r', 'cmr.iceburn', 'cmr.iceburn_r', 'cmr.infinity',
+             'cmr.infinity_r', 'cmr.infinity_s', 'cmr.infinity_s_r', 'cmr.jungle', 'cmr.jungle_r', 'cmr.lavender',
+             'cmr.lavender_r', 'cmr.lilac', 'cmr.lilac_r', 'cmr.neon', 'cmr.neon_r', 'cmr.neutral', 'cmr.neutral_r',
+             'cmr.nuclear', 'cmr.nuclear_r', 'cmr.ocean', 'cmr.ocean_r', 'cmr.pepper', 'cmr.pepper_r', 'cmr.pride',
+             'cmr.pride_r', 'cmr.prinsenvlag', 'cmr.prinsenvlag_r', 'cmr.rainforest', 'cmr.rainforest_r',
+             'cmr.redshift', 'cmr.redshift_r', 'cmr.sapphire', 'cmr.sapphire_r', 'cmr.savanna', 'cmr.savanna_r',
+             'cmr.seasons', 'cmr.seasons_r', 'cmr.seasons_s', 'cmr.seasons_s_r', 'cmr.seaweed', 'cmr.seaweed_r',
+             'cmr.sepia', 'cmr.sepia_r', 'cmr.sunburst', 'cmr.sunburst_r', 'cmr.swamp', 'cmr.swamp_r', 'cmr.torch',
+             'cmr.torch_r', 'cmr.toxic', 'cmr.toxic_r', 'cmr.tree', 'cmr.tree_r', 'cmr.tropical', 'cmr.tropical_r',
+             'cmr.viola', 'cmr.viola_r', 'cmr.voltage', 'cmr.voltage_r', 'cmr.waterlily', 'cmr.waterlily_r',
+             'cmr.watermelon', 'cmr.watermelon_r', 'cmr.wildfire', 'cmr.wildfire_r', 'cmr.heat', 'cmr.heat_r']
 linestyle = ["solid", "dashed", "dashdot", "dotted"]
 
 
@@ -44,17 +69,19 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.QcheckBox_list = []
         self.Qhs_list = []
         self.Qle_list = []
         self.Qcb_list = []
         self.Qsb_list = []
+        self.QpbColor = []
         self.area = 0
         self.savename = "test.png"
         self.figure2 = plt.figure(2)
         self.figure = plt.figure(1)
 
         self.canvas = FigureCanvas(self.figure)
-        self.toolbar = NavigationToolbar(self.canvas, self)
+        # self.toolbar = NavigationToolbar(self.canvas, self)
 
         self.app = app
         self.settings = QSettings("SpwllWrittingGuide", "Gui-1")
@@ -82,27 +109,37 @@ class MainWindow(QMainWindow):
 
         self.ui.cb_guide_line_type.addItems(linestyle)
 
-        self.ui.vl_1.addWidget(self.toolbar)
+        # self.ui.vl_1.addWidget(self.toolbar)
         self.ui.vl_1.addWidget(self.canvas)
 
         self.ui.cb_base_shape.currentTextChanged.connect(self.basechange)
         self.ui.cb_line_shape.currentTextChanged.connect(self.linechange)
+        self.ui.cb_colormaps.currentTextChanged.connect(self.cmapchange)
 
         self.ui.pb_create_rune.clicked.connect(self.savespell)
-        self.ui.pb_export_png.clicked.connect(self.exportspell)
+        # self.ui.pb_export_png.clicked.connect(self.exportspell)
         self.ui.pb_load_rune.clicked.connect(self.loadspell)
         self.ui.pb_rollareavalue.clicked.connect(self.rollsValue)
         self.ui.pb_rollrange.clicked.connect(self.rollRange)
         self.ui.pb_self_value.clicked.connect(self.createItemArea)
 
+        self.ui.pb_add_color_to_map.clicked.connect(self.add_color_choice)
+        self.ui.pb_remove_color_to_map.clicked.connect(self.remove_color_choice)
+
         self.ui.cb_area_type.currentTextChanged.connect(self.createItemArea)
 
         self.ui.hs_line_1.valueChanged.connect(self.draw)
-        self.ui.hs_line_2.clicked.connect(self.draw)
+        self.ui.checkb_line_2.clicked.connect(self.draw)
         self.ui.hs_base_1.valueChanged.connect(self.draw)
         self.ui.hs_base_2.valueChanged.connect(self.draw)
         self.ui.hs_base_3.valueChanged.connect(self.draw)
         self.ui.hs_base_4.valueChanged.connect(self.draw)
+        self.ui.hs_guide_line_size.valueChanged.connect(self.draw)
+        self.ui.hs_spell_line_size.valueChanged.connect(self.draw)
+        self.ui.hs_marker_size.valueChanged.connect(self.draw)
+
+        self.ui.hs_h_loc_pos.valueChanged.connect(self.draw)
+        self.ui.vs_v_loc_pos.valueChanged.connect(self.draw)
 
         self.ui.cb_colormaps.currentTextChanged.connect(self.draw)
         # self.ui.cb_area.currentTextChanged.connect(self.draw)
@@ -112,9 +149,15 @@ class MainWindow(QMainWindow):
         # self.ui.cb_range_distance.currentTextChanged.connect(self.draw)
         # self.ui.cb_range_form.currentTextChanged.connect(self.draw)
         self.ui.cb_base_shape.currentTextChanged.connect(self.draw)
+        self.ui.cb_guide_line_type.currentTextChanged.connect(self.draw)
+        self.ui.cb_line_shape.currentTextChanged.connect(self.draw)
 
         self.ui.checkb_legend.clicked.connect(self.draw)
+        self.ui.checkb_legend.clicked.connect(self.legendclicked)
+        self.ui.checkb_guide_line.clicked.connect(self.draw)
+        self.ui.checkb_guide_line.clicked.connect(self.guidelineclicked)
         self.ui.checkb_breakdown.clicked.connect(self.draw)
+        self.ui.checkb_breakdown.clicked.connect(self.breakdownclicked)
 
         self.ui.pb_rollareavalue.clicked.connect(self.draw)
         self.ui.pb_rollrange.clicked.connect(self.draw)
@@ -137,12 +180,94 @@ class MainWindow(QMainWindow):
         self.ui.hs_line_1.setVisible(False)
 
         self.ui.labelline_2.setVisible(False)
-        self.ui.hs_line_2.setVisible(False)
+        self.ui.checkb_line_2.setVisible(False)
         self.basechange()
         self.linechange()
+        self.add_color_choice()
+        self.add_color_choice()
+        self.legendclicked()
+        self.breakdownclicked()
+        self.guidelineclicked()
         self.draw()
 
         # draws a spell given certain values by comparing it to input txt
+
+    def add_color_choice(self, tesy="", color="#111111"):
+        button = QPushButton(color, parent=self)
+        button.clicked.connect(self.chose_color)
+        color = QColor(color)
+        if color.isValid():
+            luminace = color.red() * 0.2126 + color.green() * 0.7152 + color.blue() * 0.0722
+
+            if luminace > 179:
+                text = "#000000"
+            else:
+                text = "#ffffff"
+            button.setStyleSheet(f'QPushButton {{background-color: {color.name()}; color: {text};}}')
+        self.ui.vl_custom_color.addWidget(button)
+
+    def remove_color_choice(self, test="", index=-1):
+
+        if index != -1:
+            index = index
+        else:
+            index = self.ui.vl_custom_color.count() - 1
+        if self.ui.vl_custom_color.count() <= 3:
+            pass
+        else:
+            widget = self.ui.vl_custom_color.itemAt(index).widget()
+            self.ui.vl_custom_color.removeWidget(widget)
+            widget.deleteLater()
+            widget = None
+
+    def breakdownclicked(self):
+        if self.ui.checkb_breakdown.isChecked():
+            self.ui.cb_colormaps.show()
+            self.ui.l_color_map_name.show()
+            self.ui.pb_add_color_to_map.show()
+            self.ui.pb_remove_color_to_map.show()
+            for y in range(self.ui.vl_custom_color.count()):
+                widget = self.ui.vl_custom_color.itemAt(y).widget()
+                widget.show()
+        else:
+            self.ui.cb_colormaps.hide()
+            self.ui.l_color_map_name.hide()
+            self.ui.pb_add_color_to_map.hide()
+            self.ui.pb_remove_color_to_map.hide()
+            for y in range(self.ui.vl_custom_color.count()):
+                widget = self.ui.vl_custom_color.itemAt(y).widget()
+                widget.hide()
+    def legendclicked(self):
+        if self.ui.checkb_legend.isChecked():
+            self.ui.hs_h_loc_pos.show()
+            self.ui.vs_v_loc_pos.show()
+
+        else:
+            self.ui.hs_h_loc_pos.hide()
+            self.ui.vs_v_loc_pos.hide()
+
+    def guidelineclicked(self):
+        if self.ui.checkb_guide_line.isChecked():
+            self.ui.hs_guide_line_size.show()
+            self.ui.cb_guide_line_type.show()
+            self.ui.l_guide_line_size.show()
+            self.ui.l_guide_line_type.show()
+        else:
+            self.ui.hs_guide_line_size.hide()
+            self.ui.cb_guide_line_type.hide()
+            self.ui.l_guide_line_size.hide()
+            self.ui.l_guide_line_type.hide()
+
+    def cmapchange(self):
+        if self.ui.cb_colormaps.currentText() == "custom":
+            custom = True
+        else:
+            custom = False
+        self.ui.pb_add_color_to_map.setVisible(custom)
+        self.ui.pb_remove_color_to_map.setVisible(custom)
+        for y in range(self.ui.vl_custom_color.count()):
+            widget = self.ui.vl_custom_color.itemAt(y).widget()
+            widget.setVisible(custom)
 
     def rollsValue(self):
         self.ui.le_value_A.setText(str(self.rollA()))
@@ -336,11 +461,11 @@ class MainWindow(QMainWindow):
             self.ui.hs_line_1.setValue(0)
 
             self.ui.labelline_2.setVisible(False)
-            self.ui.hs_line_2.setVisible(False)
-            self.ui.hs_line_2.setChecked(False)
+            self.ui.checkb_line_2.setVisible(False)
+            self.ui.checkb_line_2.setChecked(False)
         if len(sig.parameters) - 2 >= 1:
             self.ui.labelline_2.setVisible(True)
-            self.ui.hs_line_2.setVisible(True)
+            self.ui.checkb_line_2.setVisible(True)
             if len(sig.parameters) - 2 < 2:
                 self.ui.labelline_1.setVisible(False)
                 self.ui.hs_line_1.setVisible(False)
@@ -350,7 +475,7 @@ class MainWindow(QMainWindow):
             self.ui.hs_line_1.setVisible(True)
 
         for position, (name, param) in enumerate(sig.parameters.items()):
-            print(position, name)
+            # print(position, name)
             if position == 0:
                 continue
             if position == 1:
@@ -368,7 +493,19 @@ class MainWindow(QMainWindow):
         plt.savefig(self.savename, dpi=100)
         plt.figure(1)
         self.draw()
+
     def savespell(self):
+        self.QpbColor = []
+        self.Qsb_list = []
+        self.Qle_list = []
+        self.Qcb_list = []
+        self.Qhs_list = []
+        self.QcheckBox_list = []
+        metadata = PngInfo()
+        for z in range(self.ui.vl_custom_color.count()):
+            colorW = self.ui.vl_custom_color.itemAt(z).widget()
+            if isinstance(colorW, QPushButton):
+                self.QpbColor.append(colorW.text())
         for y in range(self.ui.vl_setting.count()):
             layout = self.ui.vl_setting.itemAt(y)
             for x in range(layout.count()):
@@ -381,42 +518,52 @@ class MainWindow(QMainWindow):
                     self.Qle_list.append(widget)
                 elif isinstance(widget, QSlider):
                     self.Qhs_list.append(widget)
-        plt.savefig(self.savename, dpi=250)
+                elif isinstance(widget, QCheckBox):
+                    self.QcheckBox_list.append(widget)
+        plt.figure(2)
+        self.figure2.set_size_inches(20, 20)
+        self.draw()
+        plt.savefig(self.savename, dpi=100)
+        plt.figure(1)
+        self.draw()
         targetImage = Image.open(self.savename)
-        metadata = PngInfo()
         for widget in self.Qcb_list:
-            metadata.add_text(str(widget.objectName()),str(widget.currentText()))
+            metadata.add_text(str(widget.objectName()), str(widget.currentText()))
         for widget in self.Qhs_list:
-            metadata.add_text(str(widget.objectName()),str(widget.value()))
+            metadata.add_text(str(widget.objectName()), str(widget.value()))
         for widget in self.Qle_list:
             metadata.add_text(str(widget.objectName()), str(widget.text()))
         for widget in self.Qsb_list:
-            metadata.add_text(str(widget.objectName()),str(widget.value()))
+            metadata.add_text(str(widget.objectName()), str(widget.value()))
+        for widget in self.QcheckBox_list:
+            metadata.add_text(str(widget.objectName()), str(widget.isChecked()))
+        metadata.add_text(str("custom_colors"), str(self.QpbColor))
 
-
-
-        # metadata.add_text(str(self.ui.cb_line_shape.objectName()), str(self.ui.cb_line_shape.currentText()))
-        # metadata.add_text(str(self.ui.cb_base_shape.objectName()), str(self.ui.cb_base_shape.currentText()))
-        # metadata.add_text(str(self.ui.hs_base_1.objectName()), str(self.ui.hs_base_1.value()))
-        # metadata.add_text(str(self.ui.hs_base_2.objectName()), str(self.ui.hs_base_2.value()))
-        # metadata.add_text(str(self.ui.hs_base_3.objectName()), str(self.ui.hs_base_3.value()))
-        # metadata.add_text(str(self.ui.hs_base_4.objectName()), str(self.ui.hs_base_4.value()))
-        # metadata.add_text(str(self.ui.le_range.objectName()), str(self.ui.le_range.text()))
-
-        targetImage.save(f"{self.savename.replace('.png', '.sr')}", "PNG", pnginfo=metadata)
-        targetImage2 = Image.open(self.savename.replace('.png', '.sr'))
+        targetImage.save(f"{self.savename.replace('.png', '.sr.png')}", "PNG", pnginfo=metadata)
         os.remove(self.savename)
-        print(targetImage2.text)
 
     def loadspell(self):
         dialog = QFileDialog(self)
-        dialog.setNameFilter("Spells rune (*.sr)")
+        dialog.setNameFilter("Spells rune (*.sr.png)")
         dialog.setDirectory(r'C:\Users\DukeArchibald\PycharmProjects\SpellWritingGuideGui\spells')
         if dialog.exec_():
             fileName = dialog.selectedFiles()
             targetImage = Image.open(fileName[0])
             meta = dict(targetImage.text)
             for name, value in meta.items():
+                if name.split("_")[0] == "custom":
+                    print("load custom", value)
+                    for hex_color in eval(value):
+                        print(hex_color)
+                        self.add_color_choice("", hex_color)
+                    for z in range(self.ui.vl_custom_color.count()):
+                        print(z, self.ui.vl_custom_color.itemAt(z).widget().text())
+                    self.remove_color_choice("", 1)
+                    self.remove_color_choice("", 1)
+
+                if name.split("_")[0] == "checkb":
+                    QcheckB = self.findChild(QCheckBox, name)
+                    QcheckB.setChecked(bool(value))
                 if name.split("_")[0] == "cb":
                     Qcb = self.findChild(QComboBox, name)
                     # Qcb.blockSignals(True)
@@ -467,10 +614,38 @@ class MainWindow(QMainWindow):
 
         return attributes, non_repeating
 
+    def make_Ramp(self):
+        ramp_colors = []
+        for y in range(self.ui.vl_custom_color.count()):
+            widget = self.ui.vl_custom_color.itemAt(y).widget()
+            if isinstance(widget, QPushButton):
+                ramp_colors.append(widget.text())
+
+        color_ramp = LinearSegmentedColormap.from_list('custom', [Color(c1).rgb for c1 in ramp_colors])
+        return color_ramp
+
+    def chose_color(self):
+        color = QColorDialog.getColor()
+
+        if color.isValid():
+            luminace = color.red() * 0.2126 + color.green() * 0.7152 + color.blue() * 0.0722
+
+            if luminace > 179:
+                text = "#000000"
+            else:
+                text = "#ffffff"
+            self.sender().setStyleSheet(f'QPushButton {{background-color: {color.name()}; color: {text};}}')
+            self.sender().setText(color.name())
+
     def draw(self):
 
         self.figure.clear()
-        cmap = plt.get_cmap(self.ui.cb_colormaps.currentText())
+
+        if self.ui.cb_colormaps.currentText() == "custom":
+            cmap = self.make_Ramp()
+        else:
+            cmap = plt.get_cmap(self.ui.cb_colormaps.currentText())
+        # print(cmap.name)
         colors = []
         level = self.ui.cb_level.currentText().lower()
         school = self.ui.cb_school.currentText().lower()
@@ -481,9 +656,9 @@ class MainWindow(QMainWindow):
         breakdown = self.ui.checkb_breakdown.isChecked()
         base = getattr(bases, self.ui.cb_base_shape.currentText())
         lines = getattr(line_shapes, self.ui.cb_line_shape.currentText())
-        base_kwargs = [self.ui.hs_base_1.value() / 100, self.ui.hs_base_2.value() / 100,
+        base_kwargs = [self.ui.hs_base_1.value() / 1000, self.ui.hs_base_2.value() / 100,
                        self.ui.hs_base_3.value() / 100, self.ui.hs_base_4.value() / 100, ]
-        shape_kwargs = [self.ui.hs_line_2.isChecked(), self.ui.hs_line_1.value() / 100]
+        shape_kwargs = [self.ui.checkb_line_2.isChecked(), self.ui.hs_line_1.value() / 100]
         labels = [f"level: {level}",
                   f"school: {school}",
                   f"damage type: {dtype}",
@@ -504,7 +679,7 @@ class MainWindow(QMainWindow):
         #            breakdown=breakdown, colors=colors)
         input_array = np.array(
             [non_repeating[i] for i in attributes])  # note +1 s.t. 0th option is always open for empty input
-        draw_multiple_inputs(self.figure, self.ui, input_array, labels=labels, legend=legend,
+        draw_multiple_inputs(self.figure, self.figure2, self.ui, input_array, labels=labels, legend=legend,
                              base_fn=base, base_kwargs=base_kwargs,
                              shape_fn=lines, shape_kwargs=shape_kwargs,
                              colors=colors)
@@ -518,7 +693,7 @@ if __name__ == "__main__":
 
     dark_stylesheet = qdarkstyle.load_stylesheet_pyqt5()
     app.setStyleSheet(dark_stylesheet + "QMessageBox { messagebox-text-interaction-flags: 5; }")
-    app.setWindowIcon(QIcon('resources/bookicon.png'))
+    app.setWindowIcon(QIcon('5f8fc82c7f3c699f8c34e3313027559d_original.png'))
 
     with loop:
         main = MainWindow()

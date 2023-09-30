@@ -6,17 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1356</width>
-    <height>769</height>
+    <width>1376</width>
+    <height>941</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <layout class="QVBoxLayout" name="vl_1">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="QPushButton" name="pb_create_rune">
         <property name="text">
@@ -32,11 +32,40 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pb_export_png">
-        <property name="text">
-         <string>Export as PNG</string>
-        </property>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="2" column="1">
+         <layout class="QVBoxLayout" name="vl_1"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSlider" name="hs_h_loc_pos">
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QSlider" name="vs_v_loc_pos">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>100</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -47,7 +76,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1356</width>
+     <width>1376</width>
      <height>21</height>
     </rect>
    </property>
@@ -67,6 +96,9 @@
           <widget class="QCheckBox" name="checkb_guide_line">
            <property name="text">
             <string>Guide Lines</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -88,26 +120,58 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QSpinBox" name="sb_guide_line_size"/>
-         </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="checkb_dots">
-           <property name="text">
-            <string>Dots</string>
+          <widget class="QSlider" name="hs_guide_line_size">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>7</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBothSides</enum>
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
+         <item row="3" column="0">
           <widget class="QLabel" name="l_marker_size">
            <property name="text">
             <string>Marker size</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
-          <widget class="QSpinBox" name="sb_marker_size"/>
+         <item row="3" column="1">
+          <widget class="QSlider" name="hs_marker_size">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+           <property name="value">
+            <number>5</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBothSides</enum>
+           </property>
+          </widget>
          </item>
          <item row="5" column="1">
+          <widget class="QCheckBox" name="checkb_legend">
+           <property name="text">
+            <string>Legend</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
           <widget class="QCheckBox" name="checkb_breakdown">
            <property name="text">
             <string>Breakdown (line color)</string>
@@ -117,22 +181,47 @@
            </property>
           </widget>
          </item>
-         <item row="6" column="1">
-          <widget class="QCheckBox" name="checkb_legend">
-           <property name="text">
-            <string>Legend</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="0">
+         <item row="7" column="0">
           <widget class="QLabel" name="l_color_map_name">
            <property name="text">
             <string>Color Map</string>
            </property>
           </widget>
          </item>
-         <item row="8" column="1">
+         <item row="7" column="1">
           <widget class="QComboBox" name="cb_colormaps"/>
+         </item>
+         <item row="8" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QPushButton" name="pb_add_color_to_map">
+             <property name="text">
+              <string>Add Color to map</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pb_remove_color_to_map">
+             <property name="text">
+              <string>Remove Last Color</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="8" column="1">
+          <layout class="QVBoxLayout" name="vl_custom_color">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>choose your custom colors</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item row="9" column="0">
           <widget class="QLabel" name="l_base_shape">
@@ -159,6 +248,9 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBothSides</enum>
+           </property>
           </widget>
          </item>
          <item row="11" column="0">
@@ -175,6 +267,9 @@
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBothSides</enum>
            </property>
           </widget>
          </item>
@@ -193,6 +288,9 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBothSides</enum>
+           </property>
           </widget>
          </item>
          <item row="13" column="0">
@@ -209,6 +307,9 @@
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBothSides</enum>
            </property>
           </widget>
          </item>
@@ -232,10 +333,10 @@
          <item row="15" column="1">
           <widget class="QSlider" name="hs_line_1">
            <property name="minimum">
-            <number>-999</number>
+            <number>0</number>
            </property>
            <property name="maximum">
-            <number>999</number>
+            <number>10</number>
            </property>
            <property name="value">
             <number>0</number>
@@ -249,6 +350,9 @@
            <property name="invertedControls">
             <bool>false</bool>
            </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBothSides</enum>
+           </property>
           </widget>
          </item>
          <item row="16" column="0">
@@ -259,29 +363,45 @@
           </widget>
          </item>
          <item row="16" column="1">
-          <widget class="QCheckBox" name="hs_line_2">
+          <widget class="QCheckBox" name="checkb_line_2">
            <property name="text">
             <string>CheckBox</string>
            </property>
           </widget>
          </item>
          <item row="17" column="0">
+          <widget class="QLabel" name="l_spell_line_type">
+           <property name="text">
+            <string>Guide line type</string>
+           </property>
+          </widget>
+         </item>
+         <item row="17" column="1">
+          <widget class="QComboBox" name="cb_spell_line_type"/>
+         </item>
+         <item row="18" column="0">
           <widget class="QLabel" name="l_spell_line_size">
            <property name="text">
             <string>Spell line size</string>
            </property>
           </widget>
          </item>
-         <item row="17" column="1">
-          <widget class="QSpinBox" name="sb_spell_line_size"/>
-         </item>
-         <item row="7" column="1">
-          <widget class="QComboBox" name="cb_legend_pos"/>
-         </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="l_legend_pos">
-           <property name="text">
-            <string>legend position</string>
+         <item row="18" column="1">
+          <widget class="QSlider" name="hs_spell_line_size">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>7</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksBothSides</enum>
            </property>
           </widget>
          </item>
