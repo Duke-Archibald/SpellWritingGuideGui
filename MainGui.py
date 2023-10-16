@@ -6,14 +6,15 @@ import sys
 
 import numpy as np
 import cmasher as cmr
+import qasync
 import qdarkstyle
 from PIL import Image
 from PIL.PngImagePlugin import PngInfo
 from PyQt5.QtCore import QSettings
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QMainWindow, QComboBox, QSlider, QLineEdit, QFileDialog, QSpinBox, QColorDialog, \
-    QPushButton, QCheckBox
-from asyncqt import QApplication, QEventLoop
+    QPushButton, QCheckBox, QApplication
+# from asyncqt import QEventLoop
 from colour import Color
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -688,7 +689,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    loop = QEventLoop(app)
+    loop = qasync.QEventLoop(app)
     asyncio.set_event_loop(loop)
 
     dark_stylesheet = qdarkstyle.load_stylesheet_pyqt5()
