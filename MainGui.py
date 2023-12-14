@@ -672,7 +672,7 @@ class MainWindow(QMainWindow):
         if len(colors) == 0 and breakdown is True:
             colors = [cmap(i / len(attributes)) for i in range(len(attributes))]
         title = f"spell level {level} from the {school} school,\n range of {rang} {area} with {dtype} damage type"
-        title_filenameclean = title.replace("\n", "").replace("/", "-")
+        title_filenameclean = title.replace("\n", "").replace("/", "-").replace(",","")
         self.savename = f"spells/{title_filenameclean} legend-{legend} breakdown-{breakdown}.png"
         self.savename = self.savename.replace(" ", "_")
         input_array = np.array(
