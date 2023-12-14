@@ -193,7 +193,7 @@ class MainWindow(QMainWindow):
 
         # draws a spell given certain values by comparing it to input txt
 
-    def add_color_choice(self, tesy="", color="#111111"):
+    def add_color_choice(self, placeholder="", color="#111111"):
         button = QPushButton(color, parent=self)
         button.clicked.connect(self.chose_color)
         color = QColor(color)
@@ -207,7 +207,7 @@ class MainWindow(QMainWindow):
             button.setStyleSheet(f'QPushButton {{background-color: {color.name()}; color: {text};}}')
         self.ui.vl_custom_color.addWidget(button)
 
-    def remove_color_choice(self, test="", index=-1):
+    def remove_color_choice(self, placeholder="", index=-1):
 
         if index != -1:
             index = index
@@ -524,6 +524,7 @@ class MainWindow(QMainWindow):
         plt.figure(2)
         self.figure2.set_size_inches(20, 20)
         self.draw()
+        os.makedirs(self.savename.split("/")[0], exist_ok=True)
         plt.savefig(self.savename, dpi=100)
         plt.figure(1)
         self.draw()
@@ -646,7 +647,6 @@ class MainWindow(QMainWindow):
             cmap = self.make_Ramp()
         else:
             cmap = plt.get_cmap(self.ui.cb_colormaps.currentText())
-        # print(cmap.name)
         colors = []
         level = self.ui.cb_level.currentText().lower()
         school = self.ui.cb_school.currentText().lower()
@@ -675,9 +675,6 @@ class MainWindow(QMainWindow):
         title_filenameclean = title.replace("\n", "").replace("/", "-")
         self.savename = f"spells/{title_filenameclean} legend-{legend} breakdown-{breakdown}.png"
         self.savename = self.savename.replace(" ", "_")
-        # draw_spell(self.figure, self.ui, level, rang, self.area, dtype, school, title=title, legend=legend,
-        #            base_fn=base, base_kwargs=base_kwargs, shape_fn=lines, shape_kwargs=shape_kwargs,
-        #            breakdown=breakdown, colors=colors)
         input_array = np.array(
             [non_repeating[i] for i in attributes])  # note +1 s.t. 0th option is always open for empty input
         draw_multiple_inputs(self.figure, self.figure2, self.ui, input_array, labels=labels, legend=legend,
